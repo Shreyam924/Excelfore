@@ -40,7 +40,7 @@ public class HashTable {
         else {
             Entry current=table[index];
 
-            while(current.next!= null)
+            while(current != null)
             {
                 if(current.key.equals(key))
                 {
@@ -52,7 +52,8 @@ public class HashTable {
             current.next=entry;
         }
         size++;
-        resize();
+        if(size >= LOAD_FACTOR * table.length)
+        	resize();
     }
 
     public String get(String key)
@@ -64,7 +65,7 @@ public class HashTable {
         {
             if(current.key.equals(key))
             {
-                return current.value;
+            	return current.value;
             }
             current=current.next;
         }
@@ -101,9 +102,7 @@ public class HashTable {
     }
     
     private void resize() { 
-    	if (size >= LOAD_FACTOR * table.length) { 
     		int newCapacity = table.length * 2; 
-    		
     		Entry[] newTable = new Entry[newCapacity]; 
     		
     		for (Entry entry : table) 
@@ -116,6 +115,5 @@ public class HashTable {
     				entry = temp; 
     			} 
     		} table = newTable; 
-    	} 
     }
 }
