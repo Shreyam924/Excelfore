@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 public class HashTable {
     private static final int INITIAL_CAPACITY=16;
@@ -34,7 +33,6 @@ public class HashTable {
     {
         int index=hash(key);
         Entry entry=new Entry(key,value);
-
         if(table[index]==null)
         {
             table[index]=entry;
@@ -99,28 +97,25 @@ public class HashTable {
 
     private int hash(String key)
     {
-        return key.hashCode() % table.length;
+        return Math.abs(key.hashCode()) % table.length;
     }
-    private void resize()
-    {
-        if(size >= LOAD_FACTOR * table.length)
-        {
-            int newCapacity = table.length * 2;
-            Entry[] newTable = new Entry[newCapacity];
-            Arrays.fill(newTable,null);
-
-            for(Entry entry : table)
-            {
-                while(entry != null)
-                {
-                    int newIndex=hash(entry.key);
-                    Entry temp=entry.next;
-                    entry.next=newTable[newIndex];
-                    newTable[newIndex] = entry;
-                    entry=temp;
-                }
-            }
-            table=newTable;
-        }
+    
+    private void resize() { 
+    	if (size >= LOAD_FACTOR * table.length) { 
+    		int newCapacity = table.length * 2; 
+    		
+    		Entry[] newTable = new Entry[newCapacity]; 
+    		
+    		for (Entry entry : table) 
+    		{ 
+    			while (entry != null) { 
+    				int newIndex = hash(entry.key); 
+    				Entry temp = entry.next; 
+    				entry.next = newTable[newIndex]; 
+    				newTable[newIndex] = entry; 
+    				entry = temp; 
+    			} 
+    		} table = newTable; 
+    	} 
     }
 }
